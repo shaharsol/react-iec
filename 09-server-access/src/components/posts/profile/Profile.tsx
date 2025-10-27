@@ -11,6 +11,7 @@ export default function Profile () {
         (async () => {
             try {
                 const postsFromServer = await profileService.getProfile()
+                console.log('setting posts')
                 setPosts(postsFromServer)
             } catch (e) {
                 alert(e)
