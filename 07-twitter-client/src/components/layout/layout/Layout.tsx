@@ -1,22 +1,26 @@
+import Followers from '../followers/Followers'
+import Following from '../following/Following'
+import Footer from '../footer/Footer'
+import Header from '../header/Header'
 import './Layout.css'
 
 function Layout() {
     return (
         <div className='Layout'>
             <header>
-                header
+                <Header />
             </header>
             <aside>
-                following
+                <Following />
             </aside>
             <aside>
-                followers
+                <Followers />
             </aside>
             <main>
                 main
             </main>
             <footer>
-                footer
+                <Footer />
             </footer>
         </div>
     )
