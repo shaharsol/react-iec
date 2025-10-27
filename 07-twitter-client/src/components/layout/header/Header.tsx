@@ -3,7 +3,9 @@ import './Header.css'
 export default function Header () {
     return (
         <div className='Header'>
-            header...
+            <div>logo</div>
+            <div>nav menu</div>
+            <div>welcome shahar | logout</div>
         </div>
     )
 }
