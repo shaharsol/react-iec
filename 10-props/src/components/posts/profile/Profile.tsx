@@ -23,7 +23,10 @@ export default function Profile () {
 
     return (
         <div className='Profile'>
-            {posts.map(post => <Post post={post} />)}
+            {posts.map(post => <Post 
+                post={post} 
+                isEditAllowed={true}
+            />)}
         </div>
     )
 }
