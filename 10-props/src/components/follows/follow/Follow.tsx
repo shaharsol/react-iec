@@ -1,17 +1,18 @@
 import type User from '../../../models/User'
 import './Follow.css'
+import profilePic from '../../../assets/profile-pic.webp'
 
 interface FollowProps {
     user: User
 }
 export default function Follow(props: FollowProps) {
 
-    const { name, username } = props.user
+    const { name } = props.user
 
     return (
         <div className='Follow'>
+            <img src={profilePic} />
             <p>{name}</p>
-            <p>{username}</p>
         </div>
     )
 }

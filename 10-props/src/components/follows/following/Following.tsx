@@ -21,9 +21,7 @@ function Following() {
     
     return (
         <div className='Following'>
-            <ul>
-                {following.map(user => <Follow user={user}/>)}
-            </ul>
+            {following.map(user => <Follow user={user}/>)}
         </div>
     )
 }
