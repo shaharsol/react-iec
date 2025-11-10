@@ -4,7 +4,7 @@ import type PostModel from '../../../models/Post'
 import feedService from '../../../services/feed'
 import Post from '../post/Post'
 import Spinner from '../../common/spinner/Spiner'
-import { setTitle } from '../../../util'
+import setTitle from '../../../util'
 
 export default function Feed () {
     setTitle('feed')

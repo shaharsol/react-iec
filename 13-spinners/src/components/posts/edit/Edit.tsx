@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import profileService from '../../../services/profile'
 import { useForm } from 'react-hook-form'
 import type PostDraft from '../../../models/PostDraft'
+import SpinnerButton from '../../common/spinner-button/SpinnerButton'
 
 export default function Edit() {
 
@@ -62,7 +63,12 @@ export default function Edit() {
                     }
                 })}></textarea>
                 <div className='form-error'>{formState.errors.body  ?.message}</div>
-                <button>Update Post</button>
+                {/* <button>Update Post</button> */}
+                <SpinnerButton
+                    buttonText="Update Post"
+                    spinnerText="updating post..."
+                    isSubmitting={formState.isSubmitting} 
+                />
             </form>
 
         </div>

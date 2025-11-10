@@ -5,13 +5,14 @@ import profileService from '../../../services/profile'
 import Post from '../post/Post'
 import NewPost from '../new/NewPost'
 import Spinner from '../../common/spinner/Spiner'
+import setTitle from '../../../util'
 
 export default function Profile () {
 
-    useEffect(() => {
-        document.title = 'profile'
-    }, [])
-    
+    // useEffect(() => {
+    //     document.title = 'profile'
+    // }, [])
+    setTitle('profile')    
 
     const [ posts, setPosts ] = useState<PostModel[]>([])
     const [ isLoaded, setIsLoaded ] = useState<boolean>(false)
@@ -20,8 +21,8 @@ export default function Profile () {
         (async () => {
             try {
                 const postsFromServer = await profileService.getProfile()
-                setIsLoaded(true)
                 setPosts(postsFromServer)
+                setIsLoaded(true)
             } catch (e) {
                 alert(e)
             }

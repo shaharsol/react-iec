@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 
-export function setTitle(title: string): void {
+export default function setTitle(title: string): void {
     useEffect(() => {
-        document.title = 'profile'
+        document.title = title
     }, [])
 }

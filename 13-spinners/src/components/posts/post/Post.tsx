@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom'
 import type PostModel from '../../../models/Post'
 import profileService from '../../../services/profile'
 import './Post.css'
+import SpinnerButton from '../../common/spinner-button/SpinnerButton'
+import { useState } from 'react'
 
 interface PostProps {
     post: PostModel
@@ -13,12 +15,17 @@ export default function Post(props: PostProps) {
     const { id, title, createdAt, body, user: { name }, comments } = props.post
     const { isEditAllowed, removePost } = props
 
+    const [isDeleting, setIsDeleting] = useState<boolean>(false)
+
     async function deleteMe() {
         try {
+            setIsDeleting(true)
             await profileService.remove(id)
             removePost!(id)
         } catch (e) {
             alert(e)
+        } finally {
+            setIsDeleting(false)
         }
     }
 
@@ -37,7 +44,13 @@ export default function Post(props: PostProps) {
             <div>
                 {/* {isEditAllowed ? <button>Delete</button> : <></>} */}
                 {isEditAllowed && <>
-                    <button onClick={deleteMe}>Delete</button>
+                    {/* <button onClick={deleteMe}>Delete</button> */}
+                    <SpinnerButton
+                        buttonText='Delete'
+                        spinnerText="deleting"
+                        isSubmitting={isDeleting}
+                        onClick={deleteMe}
+                    />
                     <button onClick={editMe}>Edit</button>
                 </>}
                 
