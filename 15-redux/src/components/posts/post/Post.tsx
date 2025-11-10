@@ -5,26 +5,27 @@ import './Post.css'
 import SpinnerButton from '../../common/spinner-button/SpinnerButton'
 import { useState } from 'react'
 import PostComments from '../comments/post-comments/PostComments'
-import type PostComment from '../../../models/Comment'
+import { useAppDispatcher } from '../../../redux/hooks'
+import { remove } from '../../../redux/profile-slice'
 
 interface PostProps {
     post: PostModel
     isEditAllowed?: boolean
-    newComment(comment: PostComment): void
-    removePost?(id: string): void
 }
 export default function Post(props: PostProps) {
 
     const { id, title, createdAt, body, user: { name }, comments } = props.post
-    const { isEditAllowed, removePost, newComment } = props
+    const { isEditAllowed } = props
 
     const [isDeleting, setIsDeleting] = useState<boolean>(false)
+
+    const dispatch = useAppDispatcher()
 
     async function deleteMe() {
         try {
             setIsDeleting(true)
             await profileService.remove(id)
-            removePost!(id)
+            dispatch(remove({id}))
         } catch (e) {
             alert(e)
         } finally {
@@ -60,7 +61,6 @@ export default function Post(props: PostProps) {
             <PostComments 
                 postId={id}
                 comments={comments}
-                newComment={newComment}
             />
         </div>
     )

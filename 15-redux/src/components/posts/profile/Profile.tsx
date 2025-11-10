@@ -7,6 +7,8 @@ import NewPost from '../new/NewPost'
 import Spinner from '../../common/spinner/Spiner'
 import setTitle from '../../../util'
 import type PostComment from '../../../models/Comment'
+import { useAppDispatcher, useAppSelector } from '../../../redux/hooks'
+import { init } from '../../../redux/profile-slice'
 
 export default function Profile () {
 
@@ -15,15 +17,20 @@ export default function Profile () {
     // }, [])
     setTitle('profile')    
 
-    const [ posts, setPosts ] = useState<PostModel[]>([])
+    // const [ posts, setPosts ] = useState<PostModel[]>([])
+    const posts = useAppSelector(store => store.profileSlice.posts)
+    const dispatch = useAppDispatcher()
+
     const [ isLoaded, setIsLoaded ] = useState<boolean>(false)
 
     useEffect(() => {
         (async () => {
             try {
-                const postsFromServer = await profileService.getProfile()
-                setPosts(postsFromServer)
-                setIsLoaded(true)
+                if(posts.length === 0) {
+                    const postsFromServer = await profileService.getProfile()
+                    dispatch(init(postsFromServer))
+                    setIsLoaded(true)
+                }
             } catch (e) {
                 alert(e)
             }
@@ -31,40 +38,19 @@ export default function Profile () {
         // profileService.getProfile().then(setPosts).catch()        
     }, []);
 
-    function removePost(id: string) {
-        setPosts(posts.filter(post => post.id !== id))
-    }
-
-    function newPost(post: PostModel){
-        setPosts([post, ...posts])
-    }
-
-    function newComment(comment: PostComment) {
-        const newPosts = [...posts]
-        const relevantPost = newPosts.find(p => p.id === comment.postId)
-        if(relevantPost) {
-            relevantPost.comments.push(comment)
-        }
-        setPosts(newPosts)
-    }
-
     return (
         <div className='Profile'>
 
 
-            {!isLoaded && <Spinner />}
+            {posts.length === 0 && <Spinner />}
 
-            {isLoaded && <>
-                <NewPost 
-                newPost={newPost}
-                />
+            {posts.length !== 0 && <>
+                <NewPost />
 
                 {posts.map(post => <Post 
                     post={post} 
                     isEditAllowed={true}
                     key={post.id}
-                    removePost={removePost}
-                    newComment={newComment}
                 />)}
             </>}
         </div>

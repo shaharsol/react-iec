@@ -2,23 +2,22 @@ import { useForm } from 'react-hook-form'
 import './NewPost.css'
 import type PostDraft from '../../../models/PostDraft'
 import profileService from '../../../services/profile'
-import type Post from '../../../models/Post'
+import { useAppDispatcher } from '../../../redux/hooks'
+import { newPost } from '../../../redux/profile-slice'
 
-interface NewPostProps {
-    newPost(post: Post): void
-}
-export default function NewPost(props: NewPostProps) {
 
-    const { newPost } = props
+export default function NewPost() {
 
     const { register, handleSubmit, reset, formState } = useForm<PostDraft>()
+
+    const dispatch = useAppDispatcher()
 
     async function createPost(draft: PostDraft) {
         console.log(draft)
         try {
             const post = await profileService.createPost(draft)
             reset()
-            newPost(post)
+            dispatch(newPost(post))
         } catch (e) {
             alert(e)
         }

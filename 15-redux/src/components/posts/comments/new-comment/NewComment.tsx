@@ -3,15 +3,17 @@ import './NewComment.css'
 import type CommentDraft from '../../../../models/CommentDraft'
 import SpinnerButton from '../../../common/spinner-button/SpinnerButton'
 import commentsService from '../../../../services/comments'
-import type PostComment from '../../../../models/Comment'
+import { useAppDispatcher } from '../../../../redux/hooks'
+import { newComment as newCommentAction } from '../../../../redux/profile-slice'
 
 interface NewCommentProps {
     postId: string
-    newComment(comment: PostComment): void
 }
 export default function NewComment(props: NewCommentProps) {
 
-    const { postId, newComment } = props
+    const dispatch = useAppDispatcher()
+
+    const { postId } = props
 
     const { register, reset, formState, handleSubmit } = useForm<CommentDraft>()
 
@@ -19,7 +21,7 @@ export default function NewComment(props: NewCommentProps) {
         try {
             const comment = await commentsService.createComment(postId, draft)
             reset()
-            newComment(comment)
+            dispatch(newCommentAction(comment))
         } catch (e) {
             alert(e)
         }

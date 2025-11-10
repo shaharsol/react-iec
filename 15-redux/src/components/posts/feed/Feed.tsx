@@ -6,40 +6,37 @@ import Post from '../post/Post'
 import Spinner from '../../common/spinner/Spiner'
 import setTitle from '../../../util'
 import type PostComment from '../../../models/Comment'
+import { useAppDispatcher, useAppSelector } from '../../../redux/hooks'
+import { init } from '../../../redux/feed-slice'
 
 export default function Feed () {
     setTitle('feed')
 
-    const [ feed, setFeed ] = useState<PostModel[]>([])
+    // const [ feed, setFeed ] = useState<PostModel[]>([])
+    const feed = useAppSelector(store => store.feedSlice.feed)
+    const dispatch = useAppDispatcher()
+
     const [ isLoaded, setIsLoaded ] = useState<boolean>(false)
 
     useEffect(() => {
         (async () => {
-            const feedFromServer = await feedService.getFeed()
-            setIsLoaded(true)
-            setFeed(feedFromServer)
+            if(feed.length === 0) {
+                const feedFromServer = await feedService.getFeed()
+                setIsLoaded(true)
+                dispatch(init(feedFromServer))
+            }
         })()
-    }, [])
-
-    function newComment(comment: PostComment) {
-        const newPosts = [...feed]
-        const relevantPost = newPosts.find(p => p.id === comment.postId)
-        if(relevantPost) {
-            relevantPost.comments.push(comment)
-        }
-        setFeed(newPosts)
-    }
+    }, [feed.length])
 
     return (
         <div className='Feed'>
-            {!isLoaded && <Spinner />}
+            {feed.length === 0 && <Spinner />}
 
-            {isLoaded && <>
+            {!(feed.length === 0) && <>
 
                 {feed.map(post => <Post 
                     key={post.id} 
                     post={post} 
-                    newComment={newComment}
                 />)}
             </>}
         </div>

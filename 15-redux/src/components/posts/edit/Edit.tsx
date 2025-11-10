@@ -5,6 +5,8 @@ import profileService from '../../../services/profile'
 import { useForm } from 'react-hook-form'
 import type PostDraft from '../../../models/PostDraft'
 import SpinnerButton from '../../common/spinner-button/SpinnerButton'
+import { useAppDispatcher } from '../../../redux/hooks'
+import { editPost } from '../../../redux/profile-slice'
 
 export default function Edit() {
 
@@ -26,11 +28,14 @@ export default function Edit() {
 
     const navigate = useNavigate()
 
+    const dispatch = useAppDispatcher()
+
     async function updatePost(draft: PostDraft) {
         console.log(draft)
         try {
-            await profileService.updatePost(id!, draft)
+            const updatedPost = await profileService.updatePost(id!, draft)
             alert(`post ${id} updated`)
+            dispatch(editPost(updatedPost))
             navigate('/profile')
         } catch (e) {
             alert(e)
