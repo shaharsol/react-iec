@@ -1,0 +1,4 @@
+.PostComments {
+    display: flex;
+    flex-direction: column;
+}
