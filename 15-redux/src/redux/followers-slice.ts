@@ -2,32 +2,32 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type User from "../models/User";
 
 // what is the data that is saved in this slice?
-interface FollowingState {
-    following: User[]
+interface FollowersState {
+    followers: User[]
 }
 
 // create initial state object
-const initialState: FollowingState = {
-    following: []
+const initialState: FollowersState = {
+    followers: []
 }
 
-const followingSlice = createSlice({
-    name: 'following',
+const followersSlice = createSlice({
+    name: 'followers',
     initialState,
     reducers: {
         init: (state, action: PayloadAction<User[]>) => {
-            state.following = action.payload
+            state.followers = action.payload
         },
         unfollow: (state, action: PayloadAction<{id: string}>) => {
-            state.following = state.following.filter(f => f.id !== action.payload.id)
+            state.followers = state.followers.filter(f => f.id !== action.payload.id)
         },
         follow: (state, action: PayloadAction<User>) => {
-            state.following.push(action.payload)
+            state.followers.push(action.payload)
         }
     }
 })
 
-export const { init, unfollow, follow } = followingSlice.actions
+export const { init, unfollow, follow } = followersSlice.actions
 
-export default followingSlice.reducer
+export default followersSlice.reducer
 

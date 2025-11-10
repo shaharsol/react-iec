@@ -38,6 +38,7 @@ export default function Profile () {
         // profileService.getProfile().then(setPosts).catch()        
     }, []);
 
+
     return (
         <div className='Profile'>
 

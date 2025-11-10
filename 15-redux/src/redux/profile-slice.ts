@@ -12,7 +12,7 @@ const initialState: ProfileState = {
     posts: []
 }
 
-export const profileSlice = createSlice({
+const profileSlice = createSlice({
     name: 'profile',
     initialState,
     reducers: {

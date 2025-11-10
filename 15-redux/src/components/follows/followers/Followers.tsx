@@ -1,21 +1,27 @@
 import { useEffect, useState } from 'react'
 import './Followers.css'
-import type User from '../../../models/User'
 import Follow from '../follow/Follow'
 import followersService from '../../../services/followers'
 import Spinner from '../../common/spinner/Spiner'
+import { useAppDispatcher, useAppSelector } from '../../../redux/hooks'
+import { init } from '../../../redux/followers-slice'
 
 export default function Followers() {
 
-    const [ followers, setFollowers ] = useState<User[]>([])
+    // const [ followers, setFollowers ] = useState<User[]>([])
+    const followers = useAppSelector(store => store.followersSlice.followers)
     const [ isLoaded, setIsLoaded ] = useState<boolean>(false)
+
+    const dispatch = useAppDispatcher()
 
     useEffect(() => {
         (async() => {
             try {
-                const followersFromServer = await followersService.getFollowers()
-                setIsLoaded(true)
-                setFollowers(followersFromServer)
+                if(followers.length === 0){
+                    const followersFromServer = await followersService.getFollowers()
+                    setIsLoaded(true)
+                    dispatch(init(followersFromServer))
+                }
             } catch (e) {
                 alert(e)
             }
