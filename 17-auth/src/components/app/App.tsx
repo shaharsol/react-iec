@@ -10,8 +10,11 @@ function App() {
   return (
     <>
         <BrowserRouter>
+
             <Redux store={store}>
+
                 <Auth>
+                    
                     <Layout />
                 </Auth>
             </Redux>
