@@ -1,14 +1,16 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import './Edit.css'
 import { useEffect } from 'react'
-import profileService from '../../../services/profile'
 import { useForm } from 'react-hook-form'
 import type PostDraft from '../../../models/PostDraft'
 import SpinnerButton from '../../common/spinner-button/SpinnerButton'
 import { useAppDispatcher } from '../../../redux/hooks'
 import { editPost } from '../../../redux/profile-slice'
+import useService from '../../../hooks/use-service'
+import ProfileService from '../../../services/auth-aware/profile'
 
 export default function Edit() {
+    const profileService = useService(ProfileService)
 
     const { id } = useParams<'id'>()
     

@@ -1,9 +1,14 @@
 import axios from "axios"
 import type Post from "../models/Post"
 import type PostDraft from "../models/PostDraft"
+import { useContext } from "react"
+import { AuthContext } from "../components/auth/auth/Auth"
 
 class ProfileService {
+
+
     async getProfile(): Promise<Post[]> {
+
         const result = await axios<Post[]>(`${import.meta.env.VITE_REST_SERVER_URL}/profile`)
         return result.data
     }

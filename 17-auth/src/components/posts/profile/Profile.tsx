@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import './Profile.css'
 import type PostModel from '../../../models/Post'
 import profileService from '../../../services/profile'
@@ -9,8 +9,14 @@ import setTitle from '../../../util'
 import type PostComment from '../../../models/Comment'
 import { useAppDispatcher, useAppSelector } from '../../../redux/hooks'
 import { init } from '../../../redux/profile-slice'
+import { AuthContext } from '../../auth/auth/Auth'
+import useService from '../../../hooks/use-service'
+import ProfileService from '../../../services/auth-aware/profile'
 
 export default function Profile () {
+
+    const profileService = useService(ProfileService)
+
 
     // useEffect(() => {
     //     document.title = 'profile'
@@ -22,6 +28,8 @@ export default function Profile () {
     const dispatch = useAppDispatcher()
 
     const [ isLoaded, setIsLoaded ] = useState<boolean>(false)
+
+    const { jwt } = useContext(AuthContext)!
 
     useEffect(() => {
         (async () => {
